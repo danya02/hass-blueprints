@@ -1,0 +1,78 @@
+blueprint:
+  name: Switch Control for Two Lights
+  description: Controls two lights using a ZHA remote switch with four buttons. Left top turns on first light, left bottom turns off first light, right top turns on second light, right bottom turns off second light.
+  domain: automation
+  input:
+    remote:
+      name: Remote Switch
+      description: The ZHA remote device to use.
+      selector:
+        device:
+          integration: zha
+    light_one:
+      name: First Light
+      description: The first light entity to control (left buttons).
+      selector:
+        target:
+          entity:
+            domain: light
+    light_two:
+      name: Second Light
+      description: The second light entity to control (right buttons).
+      selector:
+        target:
+          entity:
+            domain: light
+
+trigger:
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: Button 1 (Up)
+    id: left_top
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: Button 1 (Down)
+    id: left_bottom
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: Button 2 (Up)
+    id: right_top
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: Button 2 (Down)
+    id: right_bottom
+
+condition: []
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: left_top
+        sequence:
+          - service: light.turn_on
+            target: !input light_one
+      - conditions:
+          - condition: trigger
+            id: left_bottom
+        sequence:
+          - service: light.turn_off
+            target: !input light_one
+      - conditions:
+          - condition: trigger
+            id: right_top
+        sequence:
+          - service: light.turn_on
+            target: !input light_two
+      - conditions:
+          - condition: trigger
+            id: right_bottom
+        sequence:
+          - service: light.turn_off
+            target: !input light_two
+
+mode: single
