@@ -1,6 +1,6 @@
 blueprint:
-  name: Switch Control for Two Lights
-  description: Controls two lights using a ZHA remote switch with four buttons. Left top turns on first light, left bottom turns off first light, right top turns on second light, right bottom turns off second light.
+  name: Switch Control for Two Lights with Brightness
+  description: Controls two lights using a ZHA remote switch with four buttons. Single press: Left top turns on first light, left bottom turns off first light, right top turns on second light, right bottom turns off second light. Double press: Left top increases brightness of first light, left bottom decreases, right top increases second light, right bottom decreases.
   domain: automation
   input:
     remote:
@@ -49,6 +49,30 @@ trigger:
     subtype: Button 2 (Down)
     id: right_bottom
     trigger: device
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_double_press
+    subtype: Button 1 (Up)
+    id: left_top_double
+    trigger: device
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_double_press
+    subtype: Button 1 (Down)
+    id: left_bottom_double
+    trigger: device
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_double_press
+    subtype: Button 2 (Up)
+    id: right_top_double
+    trigger: device
+  - device_id: !input remote
+    domain: zha
+    type: remote_button_double_press
+    subtype: Button 2 (Down)
+    id: right_bottom_double
+    trigger: device
 
 condition: []
 
@@ -78,5 +102,37 @@ action:
         sequence:
           - service: light.turn_off
             target: !input light_two
+      - conditions:
+          - condition: trigger
+            id: left_top_double
+        sequence:
+          - service: light.turn_on
+            target: !input light_one
+            data:
+              brightness_step_pct: 10
+      - conditions:
+          - condition: trigger
+            id: left_bottom_double
+        sequence:
+          - service: light.turn_on
+            target: !input light_one
+            data:
+              brightness_step_pct: -10
+      - conditions:
+          - condition: trigger
+            id: right_top_double
+        sequence:
+          - service: light.turn_on
+            target: !input light_two
+            data:
+              brightness_step_pct: 10
+      - conditions:
+          - condition: trigger
+            id: right_bottom_double
+        sequence:
+          - service: light.turn_on
+            target: !input light_two
+            data:
+              brightness_step_pct: -10
 
 mode: single
