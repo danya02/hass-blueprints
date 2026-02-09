@@ -148,4 +148,4 @@ action:
             data:
               brightness_step_pct: "{{ -brightness_step_pct }}"
 
-mode: single
+mode: parallel
