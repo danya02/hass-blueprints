@@ -34,6 +34,9 @@ blueprint:
           unit_of_measurement: "%"
           mode: slider
 
+variables:
+  brightness_step_pct: !input brightness_step
+
 trigger:
   - device_id: !input remote
     domain: zha
@@ -119,7 +122,7 @@ action:
           - service: light.turn_on
             target: !input light_one
             data:
-              brightness_step_pct: !input brightness_step
+              brightness_step_pct: "{{ brightness_step_pct }}"
       - conditions:
           - condition: trigger
             id: left_bottom_double
@@ -127,7 +130,7 @@ action:
           - service: light.turn_on
             target: !input light_one
             data:
-              brightness_step_pct: "{{ -1 * brightness_step }}"
+              brightness_step_pct: "{{ -brightness_step_pct }}"
       - conditions:
           - condition: trigger
             id: right_top_double
@@ -135,7 +138,7 @@ action:
           - service: light.turn_on
             target: !input light_two
             data:
-              brightness_step_pct: !input brightness_step
+              brightness_step_pct: "{{ brightness_step_pct }}"
       - conditions:
           - condition: trigger
             id: right_bottom_double
@@ -143,6 +146,6 @@ action:
           - service: light.turn_on
             target: !input light_two
             data:
-              brightness_step_pct: "{{ -1 * brightness_step }}"
+              brightness_step_pct: "{{ -brightness_step_pct }}"
 
 mode: single
