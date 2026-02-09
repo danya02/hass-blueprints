@@ -1,6 +1,6 @@
 blueprint:
   name: Switch Control for Two Lights with Brightness
-  description: Controls two lights using a ZHA remote switch with four buttons. Single press: Left top turns on first light, left bottom turns off first light, right top turns on second light, right bottom turns off second light. Double press: Left top increases brightness of first light, left bottom decreases, right top increases second light, right bottom decreases.
+  description: Controls two lights using a ZHA remote switch with four buttons. Single press - Left top turns on first light, left bottom turns off first light, right top turns on second light, right bottom turns off second light. Double press - Left top increases brightness of first light, left bottom decreases, right top increases second light, right bottom decreases.
   domain: automation
   input:
     remote:
