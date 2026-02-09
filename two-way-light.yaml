@@ -30,21 +30,25 @@ trigger:
     type: remote_button_short_press
     subtype: Button 1 (Up)
     id: left_top
+    trigger: device
   - device_id: !input remote
     domain: zha
     type: remote_button_short_press
     subtype: Button 1 (Down)
     id: left_bottom
+    trigger: device
   - device_id: !input remote
     domain: zha
     type: remote_button_short_press
     subtype: Button 2 (Up)
     id: right_top
+    trigger: device
   - device_id: !input remote
     domain: zha
     type: remote_button_short_press
     subtype: Button 2 (Down)
     id: right_bottom
+    trigger: device
 
 condition: []
 
